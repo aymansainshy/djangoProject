@@ -1,8 +1,36 @@
-<img src="{{album.album_logo}}">
-<h1>{{album}}</h1>
-<h3>{{album.artist}}</h3>
-<ul>
-   {%for song in songs%}
-     <li> {{song}} - {{song.file_type}}</li>
-   {%endfor%}
-</ul>
+{% extends 'music/base.html' %}
+
+
+{% block title %}Album Detail{% endblock %}
+{% block body %}
+    <img src="{{album.album_logo}}">
+    <h1>{{album}}</h1>
+    <h3>{{album.artist}}</h3>
+
+    <!-- <ul>
+      {%for song in songs%}
+        <li> {{song}} - {{song.file_type}}</li>
+      {%endfor%}
+    </ul> -->
+
+    {% if error_massege %}
+        <p><strong>{{ error_massege }}</strong></p>
+    {% endif %}
+
+    <form action="{% url 'music:favorite' album.id %}" method="post">
+      {% csrf_token %}
+
+      {% for song in album.song_set.all %}
+        <input type="radio" id="song{{ forloop.counter }}" name="song" value="{{song.id}}">
+        <label for="song{{ forloop.counter }}">
+          {{ song.song_title }}
+
+          {% if song.is_favorite %}
+            <img src="https://www.google.com/search?q=image.png+star&sxsrf=ALeKk03kvLKHzzJzlI49NC5A67XgFfV10w:1605346838450&tbm=isch&source=iu&ictx=1&fir=nq-DHdXbWe6QhM%252Ct7mkeUrw2_6DzM%252C_&vet=1&usg=AI4_-kSdIYeGeSUerdHHw9W5xpZV_beuCg&sa=X&ved=2ahUKEwi_66-A34HtAhWNyIUKHYVeDhkQ9QF6BAgDEEQ&biw=1536&bih=792#imgrc=p7jkJd7bcaHt5M"/>
+          {% endif %} 
+
+          </label><br>
+      {% endfor %}
+      <input type="submit" value="favorite">
+    </form>
+{% endblock %}   
