@@ -1,10 +1,31 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from  django.http import  Http404
+from django.http import  Http404
+from django.views import  generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # from django.template import loader
 
-from music.models import Album, Song 
+from .models import Album, Song 
 
+
+# class IndexView(generic.ListView):
+#     template_name = 'music/index.html'
+#     context_object_name = 'all_albums'
+    
+#     def get_queryset(self):
+#         return Album.objects.all()
+
+
+# class DetailView(generic.DetailView):
+#     # the Model you get the detail of 
+#     model = Album
+#     template_name = 'music/detail.html'
+
+
+# class AlbumCreate(CreateView):
+#     model = Album
+#     fields = ['artist', 'album_title', 'ganre', 'album_logo']
+    
 
 # Create your views here.
 def index(request):
